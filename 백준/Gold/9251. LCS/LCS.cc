@@ -17,9 +17,10 @@ int main()
     string longStr = str.length() > str2.length() ? str : str2;
     string shortStr = str.length() <= str2.length() ? str : str2;
 
-    vector<vector<int>> lcsVec;
-    lcsVec.push_back(vector<int>(longStr.length()+1, 0));
-    int maxCnt = 0;
+    vector<vector<int>> dp;
+    dp.push_back(vector<int>(longStr.length()+1, 0));
+    string lcsStr = "";
+
     for(int i=0; i<shortStr.length(); i++)
     {
         vector<int> vec;
@@ -29,20 +30,20 @@ int main()
         {
             if(shortStr[i]==longStr[j])
             {
-                vec.push_back(lcsVec[i][j]+1);
-                maxCnt = max(maxCnt, vec.back());
+                vec.push_back(dp[i][j]+1);
             }
             else
             {
-                int num = vec.back() > lcsVec[i][j+1] ? vec.back() : lcsVec[i][j+1];
+                int num = vec.back() > dp[i][j+1] ? vec.back() : dp[i][j+1];
                 vec.push_back(num);
             }
-
         }
-        lcsVec.push_back(vec);
+        dp.push_back(vec);
     }
 
-    cout << maxCnt << endl;
+    sort(dp.back().begin(), dp.back().end());
 
+    cout << dp.back().back() << endl;
+    
     return 0;
 }
